@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process name="HelloWorld"
+         targetNamespace="http://xmlns.oracle.com/HelloWorld"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/HelloWorld"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns1="http://xmlns.oracle.com/HelloWorld"
+         xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension">
+  
+  <partnerLinks>
+    <partnerLink name="client"
+                 partnerLinkType="client:HelloWorld"
+                 myRole="HelloWorldProvider"/>
+  </partnerLinks>
+
+  <variables>
+    <variable name="input" messageType="client:HelloWorldRequestMessage"/>
+    <variable name="output" messageType="client:HelloWorldResponseMessage"/>
+  </variables>
+
+  <sequence name="main">
+    <receive name="receiveInput" partnerLink="client" portType="client:HelloWorld"
+             operation="process" variable="input" createInstance="yes"/>
+    
+    <assign name="AssignHello">
+      <copy>
+        <from expression="concat('Hello, ', $input.payload/client:name)"/>
+        <to variable="output" part="payload" query="/client:greeting"/>
+      </copy>
+    </assign>
+
+    <reply name="replyOutput" partnerLink="client" portType="client:HelloWorld"
+           operation="process" variable="output"/>
+  </sequence>
+</process>
