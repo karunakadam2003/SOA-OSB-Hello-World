@@ -1,1 +1,37 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://xmlns.oracle.com/HelloWorld"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://xmlns.oracle.com/HelloWorld">
+  <types>
+    <xs:schema targetNamespace="http://xmlns.oracle.com/HelloWorld">
+      <xs:element name="HelloWorldRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HelloWorldResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="greeting" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </types>
 
+  <message name="HelloWorldRequestMessage">
+    <part name="payload" element="tns:HelloWorldRequest"/>
+  </message>
+  <message name="HelloWorldResponseMessage">
+    <part name="payload" element="tns:HelloWorldResponse"/>
+  </message>
+
+  <portType name="HelloWorld">
+    <operation name="process">
+      <input message="tns:HelloWorldRequestMessage"/>
+      <output message="tns:HelloWorldResponseMessage"/>
+    </operation>
+  </portType>
+</definitions>
